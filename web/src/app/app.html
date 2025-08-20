@@ -1,10 +1,17 @@
 <h1>Maddswack Fantasy Football League</h1>
 <h2>2025 Draft Lottery</h2>
-<div *ngIf="loading()">Loading…</div>
-<div *ngIf="error()" style="color: crimson">{{ error() }}</div>
-<div *ngIf="members().length">
-  <div *ngFor="let m of members()">
-    <strong>{{ m.team_name }}: </strong>
-    <span *ngIf="m.lotto_balls !== null">{{ m.lotto_balls }} lottery balls</span>
+@if (loading()) {
+  <div>Loading…</div>
+}
+@if (error()) {
+  <div style="color:crimson">{{ error() }}</div>
+}
+@if (members().length === 0 && !loading()) {
+  <div>No members yet.</div>
+}
+@for (m of members(); track m.id) {
+  <div class="member">
+    <strong>{{ m.team_name }}:</strong>
+    @if (m.lotto_balls !== null) { {{ m.lotto_balls }} lotto balls }
   </div>
-</div>
+}
