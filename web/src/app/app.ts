@@ -18,6 +18,7 @@ export class App {
   error = signal<string | null>(null);
 
   lottoPool = [] as Array<number>;
+  draftOrder = [] as Array<number>;
 
   constructor(private membersApi: MembersApi) {
     effect(() => {
@@ -46,6 +47,18 @@ export class App {
     });
   }
 
+  generateDraftOrder() {
+    this.draftOrder = [];
+    while (this.lottoPool.length) {
+      const randomIndex = Math.floor(Math.random() * this.lottoPool.length);
+      const pick = this.lottoPool[randomIndex];
+      this.draftOrder.push(pick);
+      this.lottoPool = this.lottoPool.filter(id => id !== pick);
+      console.log(`Picked member ID: ${pick}`);
+      console.log(`Remaining pool: ${this.lottoPool.length} members`);
+    }
+    console.log('Draft Order:', this.draftOrder);
+  }
 
 
 }
