@@ -17,6 +17,8 @@ export class App {
   loading = signal(false);
   error = signal<string | null>(null);
 
+  lottoPool = [] as Array<number>;
+
   constructor(private membersApi: MembersApi) {
     effect(() => {
       console.log('Members updated:', this.members());
@@ -29,8 +31,8 @@ export class App {
     this.error.set(null);
     try {
       this.members.set(await this.membersApi.getAllMembers());
-      const pool = this.buildLotteryPool(this.members());
-      console.log('Lottery Pool:', pool);
+      this.lottoPool = this.buildLotteryPool(this.members());
+      console.log('Lottery Pool:', this.lottoPool);
     } catch (err: any) {
       this.error.set(err?.message ?? 'Failed to load league members');
     } finally {
@@ -40,8 +42,10 @@ export class App {
 
   buildLotteryPool(members: LeagueMember[]): Array<number> {
     return members.flatMap((member) => {
-      const n = Math.max(0, Math.floor(member.lotto_balls));
-      return Array.from({ length: n }, () => member.id);
+      return Array.from({ length: member.lotto_balls }, () => member.id);
     });
   }
+
+
+
 }
