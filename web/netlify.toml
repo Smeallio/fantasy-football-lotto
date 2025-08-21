@@ -5,3 +5,8 @@
 [build.environment]
   NODE_VERSION = "20"
   SECRETS_SCAN_OMIT_KEYS = "supabaseAnonKey,supabaseUrl"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
