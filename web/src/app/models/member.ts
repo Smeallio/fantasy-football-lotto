@@ -5,3 +5,8 @@ export interface LeagueMember {
     team_image: string | null;
     lotto_balls: number;
 }
+
+export type RevealedPick = {
+    pickNumber: number;
+    member: LeagueMember;
+};

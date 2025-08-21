@@ -12,22 +12,19 @@
   @if (m.lotto_balls !== null) { {{ m.lotto_balls }} lotto balls }
 </div>
 }
-<button (click)="generateDraftOrder()">Generate Draft Order</button>
-<button
-  (click)="revealDraftOrder()"
-  [disabled]="reveal() || !draftOrder.length"
->
-  Reveal Draft Order
-</button>
+<div class="controls">
+  <button (click)="generateDraftOrder()" [disabled]="running() || loading()">Run Lottery</button>
+  <button (click)="reset()" [disabled]="running() || loading()">Reset</button>
+</div>
 
-@if (currentPick()) {
-<p>Pick number {{ currentPickNumber() }} goes to:</p>
-<p>{{ currentPick()!.team_name }}</p>
-@if (currentPick()!.team_image) {
-<img
-  [src]="currentPick()!.team_image"
-  alt="{{ currentPick()!.team_name }}"
-  width="100"
-  heigth="100"
-/>
-} }
+@if (revealedPicks().length) {
+  <h3>Draft Order</h3>
+    @for (p of revealedPicks(); track p.member.id) {
+      <p>
+        <strong>Pick {{ p.pickNumber }}:</strong> {{ p.member.team_name }}
+        @if (p.member.team_image) {
+          <img [src]="p.member.team_image" alt="{{ p.member.team_name }}" width="100" height="100">
+        }
+      </p>
+    }
+}
