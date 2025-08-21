@@ -1,6 +1,7 @@
 [build]
   command = "npm run build"
-  publish = "dist/<your-project-name>"
+  publish = "dist/web"
 
 [build.environment]
   NODE_VERSION = "20"
+  SECRETS_SCAN_OMIT_KEYS = "supabaseAnonKey,supabaseUrl"
