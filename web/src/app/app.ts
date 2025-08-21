@@ -1,12 +1,10 @@
-import { Component, computed, effect, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { MembersApi } from './services/members.api';
-import { RouterOutlet } from '@angular/router';
 import { LeagueMember, RevealedPick } from './models/member';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -89,6 +87,5 @@ export class App {
     this.draftOrder = [];
     this.lottoPool = this.buildLotteryPool(this.members());
     this.error.set(null);
-    console.log('Reset complete');
   }
 }

@@ -13,8 +13,8 @@
 </div>
 }
 <div class="controls">
-  <button (click)="generateDraftOrder()" [disabled]="running() || loading()">Run Lottery</button>
-  <button (click)="reset()" [disabled]="running() || loading()">Reset</button>
+  <button class="run-lotto-btn" (click)="generateDraftOrder()" [disabled]="running() || loading()">Run Lottery</button>
+  <button class="reset-btn" (click)="reset()" [disabled]="running() || loading()">Reset</button>
 </div>
 
 @if (revealedPicks().length) {
