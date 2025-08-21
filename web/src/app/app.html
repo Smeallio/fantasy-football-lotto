@@ -13,3 +13,21 @@
 </div>
 }
 <button (click)="generateDraftOrder()">Generate Draft Order</button>
+<button
+  (click)="revealDraftOrder()"
+  [disabled]="reveal() || !draftOrder.length"
+>
+  Reveal Draft Order
+</button>
+
+@if (currentPick()) {
+<p>Pick number {{ currentPickNumber() }} goes to:</p>
+<p>{{ currentPick()!.team_name }}</p>
+@if (currentPick()!.team_image) {
+<img
+  [src]="currentPick()!.team_image"
+  alt="{{ currentPick()!.team_name }}"
+  width="100"
+  heigth="100"
+/>
+} }

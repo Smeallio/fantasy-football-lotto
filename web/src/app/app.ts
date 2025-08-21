@@ -1,4 +1,4 @@
-import { Component, effect, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { MembersApi } from './services/members.api';
 import { RouterOutlet } from '@angular/router';
 import { LeagueMember } from './models/member';
@@ -14,11 +14,17 @@ export class App {
   protected readonly title = signal('Maddswack 2025 Draft Lottery');
 
   members = signal<LeagueMember[]>([]);
+  reveal = signal(false);
+  currentPickNumber = signal<number | null>(null);
+  currentPick = signal<LeagueMember | null>(null);
   loading = signal(false);
   error = signal<string | null>(null);
 
-  lottoPool = [] as Array<number>;
-  draftOrder = [] as Array<number>;
+  lottoPool: number[] = [];
+  draftOrder: number[] = [];
+  // reverseDraftOrder = [] as Array<number>;
+
+  private byId = computed(() => new Map(this.members().map(member => [member.id, member])));
 
   constructor(private membersApi: MembersApi) {
     effect(() => {
@@ -60,5 +66,25 @@ export class App {
     console.log('Draft Order:', this.draftOrder);
   }
 
+  async revealDraftOrder(delayMs = 3000) {
+    if (this.reveal() || !this.draftOrder.length) return;
+    this.reveal.set(true);
+    let reverseDraftOrder = [...this.draftOrder].reverse();
+    while (reverseDraftOrder.length) {
+      const pickNumber = reverseDraftOrder.length;
+      const id = reverseDraftOrder[0];
+      const team = this.byId().get(id) ?? null;
+
+    this.currentPickNumber.set(pickNumber);
+    this.currentPick.set(team);
+    reverseDraftOrder.shift()
+
+    await new Promise(resolve => setTimeout(resolve, delayMs));
+  }
+
+  this.currentPickNumber.set(null);
+  this.currentPick.set(null);
+  this.reveal.set(false);
+  }
 
 }
